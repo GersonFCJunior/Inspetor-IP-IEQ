@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Calculadora de EPU</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      background-color: #f4f4f4;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+      padding: 20px;
+    }
+
+    .container {
+      background-color: #fff;
+      padding: 30px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      width: 400px;
+    }
+
+    h1 {
+      color: #333;
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      color: #555;
+      font-weight: bold;
+    }
+
+    input[type="number"] {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+    }
+
+    button {
+      background-color: #007bff;
+      color: white;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    #resultados {
+      margin-top: 20px;
+      padding: 15px;
+      background-color: #e9ecef;
+      border-radius: 4px;
+      text-align: left;
+    }
+
+    #resultados p {
+      color: #333;
+      margin-bottom: 8px;
+    }
+
+    #resultados span:first-child {
+      font-weight: bold;
+      margin-right: 5px;
+    }
+
+    .back-button {
+      margin-top: 20px;
+      text-decoration: none;
+      color: #007bff;
+      font-weight: bold;
+    }
+
+    .back-button:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Calculadora de EPU</h1>
+    <div>
+      <label for="eps">EPS:</label>
+      <input type="number" id="eps">
+
+      <label for="sv">SV:</label>
+      <input type="number" id="sv">
+
+      <button onclick="calcularEPU()">Calcular</button>
+    </div>
+    <div id="resultados">
+      <p><span id="textoResultadoEPU"></span> <span id="resultadoEPU"></span></p>
+    </div>
+    <a href="index.html" class="back-button">Voltar para a Página Principal</a>
+  </div>
+
+  <script>
+    function calcularEPU() {
+      const eps = parseFloat(document.getElementById("eps").value);
+      const sv = parseFloat(document.getElementById("sv").value);
+
+      if (isNaN(eps) || isNaN(sv)) {
+        alert("Por favor, insira valores numéricos válidos nos campos.");
+        return;
+      }
+
+      if (sv === 0) {
+        alert("O valor de SV não pode ser zero para calcular a EPU.");
+        return;
+      }
+
+      const epu = (eps / sv) * 100;
+
+      document.getElementById("textoResultadoEPU").textContent = `O valor da EPU é:`;
+      document.getElementById("resultadoEPU").textContent = epu.toFixed(2);
+    }
+  </script>
+</body>
+</html>

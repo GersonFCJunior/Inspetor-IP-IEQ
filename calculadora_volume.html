@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Calculadora de Volumes</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      background-color: #f4f4f4;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+      padding: 20px;
+    }
+
+    .container {
+      background-color: #fff;
+      padding: 30px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      width: 400px;
+    }
+
+    h1 {
+      color: #333;
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      color: #555;
+      font-weight: bold;
+    }
+
+    input[type="number"] {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+    }
+
+    button {
+      background-color: #007bff;
+      color: white;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    #resultados {
+      margin-top: 20px;
+      padding: 15px;
+      background-color: #e9ecef;
+      border-radius: 4px;
+      text-align: left;
+    }
+
+    #resultados p {
+      color: #333;
+      margin-bottom: 8px;
+    }
+
+    #resultados span:first-child {
+      font-weight: bold;
+      margin-right: 5px;
+    }
+
+    .back-button {
+      margin-top: 20px;
+      text-decoration: none;
+      color: #007bff;
+      font-weight: bold;
+    }
+
+    .back-button:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Calculadora de Volumes</h1>
+    <div>
+      <label for="volumeTotal">Volume Total:</label>
+      <input type="number" id="volumeTotal">
+
+      <label for="quantidadeA">Quantidade da Parte A:</label>
+      <input type="number" id="quantidadeA">
+
+      <label for="quantidadeB">Quantidade da Parte B:</label>
+      <input type="number" id="quantidadeB">
+
+      <button onclick="calcularResultadosVolume()">Calcular</button>
+    </div>
+    <div id="resultados">
+      <p><span id="textoResultadoVolume1"></span> <span id="resultadoVolume1"></span></p>
+      <p><span id="textoResultadoVolume2"></span> <span id="resultadoVolume2"></span></p>
+    </div>
+    <a href="index.html" class="back-button">Voltar para a Página Principal</a>
+  </div>
+
+  <script>
+    function calcularResultadosVolume() {
+      const volumeTotal = parseFloat(document.getElementById("volumeTotal").value);
+      const quantidadeA = parseFloat(document.getElementById("quantidadeA").value);
+      const quantidadeB = parseFloat(document.getElementById("quantidadeB").value);
+
+      if (isNaN(volumeTotal) || isNaN(quantidadeA) || isNaN(quantidadeB)) {
+        alert("Por favor, insira valores numéricos válidos em todos os campos.");
+        return;
+      }
+
+      const resultado1 = (volumeTotal * quantidadeA) / (quantidadeA + quantidadeB);
+      const resultado2 = (volumeTotal * quantidadeB) / (quantidadeA + quantidadeB);
+
+      document.getElementById("textoResultadoVolume1").textContent = `A parcela do volume total correspondente à Parte A é:`;
+      document.getElementById("resultadoVolume1").textContent = resultado1.toFixed(2);
+
+      document.getElementById("textoResultadoVolume2").textContent = `A parcela do volume total correspondente à Parte B é:`;
+      document.getElementById("resultadoVolume2").textContent = resultado2.toFixed(2);
+    }
+  </script>
+</body>
+</html>
