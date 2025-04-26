@@ -12,7 +12,7 @@
             justify-content: center;
             min-height: 100vh;
             margin: 0;
-            padding: 50px;
+            padding: 20px;
         }
 
         h1 {
@@ -22,7 +22,9 @@
 
         .button-container {
             display: flex;
-            gap: 50px;
+            flex-direction: column; /* Altera a direção do flex container para coluna */
+            align-items: stretch; /* Faz os botões ocuparem a largura total do container */
+            gap: 15px; /* Adiciona um espaçamento entre os botões */
         }
 
         .calculator-button {
@@ -35,6 +37,7 @@
             font-size: 18px;
             text-decoration: none;
             transition: background-color 0.3s ease;
+            text-align: center; /* Centraliza o texto dentro do botão */
         }
 
         .calculator-button:hover {
@@ -49,5 +52,7 @@
         <a href="calculadora_epu.html" class="calculator-button">Calculadora de EPU</a>
         <a href="calculadora_detinta.html" class="calculator-button">Calculadora Quantidade de Tinta</a>
     </div>
+</body>
+</html>
 </body>
 </html>
