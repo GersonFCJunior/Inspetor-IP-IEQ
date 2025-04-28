@@ -1,2 +1,2 @@
-# Inspetor-IP-IEQ
+# Inspetor
 Pintura Industrial - Cálculos
