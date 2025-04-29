@@ -1,136 +1,196 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Calculadora de Volumes</title>
-  <style>
-    body {
-      font-family: sans-serif;
-      background-color: #f4f4f4;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      margin: 0;
-      padding: 20px;
-    }
+    <title>Calculadora de Volumes</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            flex-direction: column; /* Alterado para organizar as seções verticalmente */
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
 
-    .container {
-      background-color: #fff;
-      padding: 30px;
-      border-radius: 8px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-      text-align: center;
-      width: 400px;
-    }
+        .container {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 400px;
+            margin-bottom: 30px; /* Adicionado margem para separar os containers */
+        }
 
-    h1 {
-      color: #333;
-      margin-bottom: 20px;
-    }
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
 
-    label {
-      display: block;
-      margin-bottom: 8px;
-      color: #555;
-      font-weight: bold;
-    }
+        h2 {
+            color: #555;
+            margin-top: 30px;
+            margin-bottom: 15px;
+        }
 
-    input[type="number"] {
-      width: 100%;
-      padding: 10px;
-      margin-bottom: 15px;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-      box-sizing: border-box;
-    }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #555;
+            font-weight: bold;
+        }
 
-    button {
-      background-color: #007bff;
-      color: white;
-      padding: 12px 20px;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-      font-size: 16px;
-      transition: background-color 0.3s ease;
-    }
+        input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
 
-    button:hover {
-      background-color: #0056b3;
-    }
+        button {
+            background-color: #007bff;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
 
-    #resultados {
-      margin-top: 20px;
-      padding: 15px;
-      background-color: #e9ecef;
-      border-radius: 4px;
-      text-align: left;
-    }
+        button:hover {
+            background-color: #0056b3;
+        }
 
-    #resultados p {
-      color: #333;
-      margin-bottom: 8px;
-    }
+        #resultados-sem-solvente, #resultados-com-solvente {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #e9ecef;
+            border-radius: 4px;
+            text-align: left;
+        }
 
-    #resultados span:first-child {
-      font-weight: bold;
-      margin-right: 5px;
-    }
+        #resultados-sem-solvente p, #resultados-com-solvente p {
+            color: #333;
+            margin-bottom: 8px;
+        }
 
-    .back-button {
-      margin-top: 20px;
-      text-decoration: none;
-      color: #007bff;
-      font-weight: bold;
-    }
+        #resultados-sem-solvente span:first-child, #resultados-com-solvente span:first-child {
+            font-weight: bold;
+            margin-right: 5px;
+        }
 
-    .back-button:hover {
-      text-decoration: underline;
-    }
-  </style>
+        .back-button {
+            margin-top: 20px;
+            text-decoration: none;
+            color: #007bff;
+            font-weight: bold;
+        }
+
+        .back-button:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
-  <div class="container">
-    <h1>Calculadora de Volumes</h1>
-    <div>
-      <label for="volumeTotal">Volume Total:</label>
-      <input type="number" id="volumeTotal">
+    <div class="container">
+        <h1>Preparo Sem Solvente</h1>
+        <div>
+            <label for="volumeTotalSemSolvente">Volume Total Desejado:</label>
+            <input type="number" id="volumeTotalSemSolvente">
 
-      <label for="quantidadeA">Quantidade da Parte A:</label>
-      <input type="number" id="quantidadeA">
+            <label for="quantidadeASemSolvente">Quantidade da Parte A:</label>
+            <input type="number" id="quantidadeASemSolvente">
 
-      <label for="quantidadeB">Quantidade da Parte B:</label>
-      <input type="number" id="quantidadeB">
+            <label for="quantidadeBSemSolvente">Quantidade da Parte B:</label>
+            <input type="number" id="quantidadeBSemSolvente">
 
-      <button onclick="calcularResultadosVolume()">Calcular</button>
+            <button onclick="calcularResultadosSemSolvente()">Calcular</button>
+        </div>
+        <div id="resultados-sem-solvente">
+            <p><span id="textoResultadoSemSolvente1"></span> <span id="resultadoSemSolvente1"></span></p>
+            <p><span id="textoResultadoSemSolvente2"></span> <span id="resultadoSemSolvente2"></span></p>
+        </div>
     </div>
-    <div id="resultados">
-      <p><span id="textoResultadoVolume1"></span> <span id="resultadoVolume1"></span></p>
-      <p><span id="textoResultadoVolume2"></span> <span id="resultadoVolume2"></span></p>
+
+    <div class="container">
+        <h2>Preparo Com Solvente</h2>
+        <div>
+            <label for="volumeTotalComSolvente">Volume Total Desejado:</label>
+            <input type="number" id="volumeTotalComSolvente">
+
+            <label for="relacaoAComSolvente">Relação de Mistura (Parte A):</label>
+            <input type="number" id="relacaoAComSolvente">
+
+            <label for="relacaoBComSolvente">Relação de Mistura (Parte B):</label>
+            <input type="number" id="relacaoBComSolvente">
+
+            <label for="percentualDiluicao">Percentual de Diluição (%):</label>
+            <input type="number" id="percentualDiluicao">
+
+            <button onclick="calcularResultadosComSolvente()">Calcular</button>
+        </div>
+        <div id="resultados-com-solvente">
+            <p><span id="textoResultadoComSolventeA"></span> <span id="resultadoComSolventeA"></span></p>
+            <p><span id="textoResultadoComSolventeB"></span> <span id="resultadoComSolventeB"></span></p>
+            <p><span id="textoResultadoSolvente"></span> <span id="resultadoSolvente"></span></p>
+        </div>
     </div>
+
     <a href="index.html" class="back-button">Voltar para a Página Principal</a>
-  </div>
 
-  <script>
-    function calcularResultadosVolume() {
-      const volumeTotal = parseFloat(document.getElementById("volumeTotal").value);
-      const quantidadeA = parseFloat(document.getElementById("quantidadeA").value);
-      const quantidadeB = parseFloat(document.getElementById("quantidadeB").value);
+    <script>
+        function calcularResultadosSemSolvente() {
+            const volumeTotal = parseFloat(document.getElementById("volumeTotalSemSolvente").value);
+            const quantidadeA = parseFloat(document.getElementById("quantidadeASemSolvente").value);
+            const quantidadeB = parseFloat(document.getElementById("quantidadeBSemSolvente").value);
 
-      if (isNaN(volumeTotal) || isNaN(quantidadeA) || isNaN(quantidadeB)) {
-        alert("Por favor, insira valores numéricos válidos em todos os campos.");
-        return;
-      }
+            if (isNaN(volumeTotal) || isNaN(quantidadeA) || isNaN(quantidadeB)) {
+                alert("Por favor, insira valores numéricos válidos em todos os campos da etapa sem solvente.");
+                return;
+            }
 
-      const resultado1 = (volumeTotal * quantidadeA) / (quantidadeA + quantidadeB);
-      const resultado2 = (volumeTotal * quantidadeB) / (quantidadeA + quantidadeB);
+            const resultado1 = (volumeTotal * quantidadeA) / (quantidadeA + quantidadeB);
+            const resultado2 = (volumeTotal * quantidadeB) / (quantidadeA + quantidadeB);
 
-      document.getElementById("textoResultadoVolume1").textContent = `A quantidade correspondente à Parte A é:`;
-      document.getElementById("resultadoVolume1").textContent = resultado1.toFixed(3);
+            document.getElementById("textoResultadoSemSolvente1").textContent = `Quantidade da Parte A:`;
+            document.getElementById("resultadoSemSolvente1").textContent = resultado1.toFixed(3);
 
-      document.getElementById("textoResultadoVolume2").textContent = `A quantidade correspondente à Parte B é:`;
-      document.getElementById("resultadoVolume2").textContent = resultado2.toFixed(3);
-    }
-  </script>
+            document.getElementById("textoResultadoSemSolvente2").textContent = `Quantidade da Parte B:`;
+            document.getElementById("resultadoSemSolvente2").textContent = resultado2.toFixed(3);
+        }
+
+        function calcularResultadosComSolvente() {
+            const volumeTotalDesejado = parseFloat(document.getElementById("volumeTotalComSolvente").value);
+            const relacaoA = parseFloat(document.getElementById("relacaoAComSolvente").value);
+            const relacaoB = parseFloat(document.getElementById("relacaoBComSolvente").value);
+            const percentualDiluicao = parseFloat(document.getElementById("percentualDiluicao").value) / 100; // Converter para decimal
+
+            if (isNaN(volumeTotalDesejado) || isNaN(relacaoA) || isNaN(relacaoB) || isNaN(percentualDiluicao)) {
+                alert("Por favor, insira valores numéricos válidos em todos os campos da etapa com solvente.");
+                return;
+            }
+
+            const volumeSolidos = volumeTotalDesejado * (1 - percentualDiluicao);
+            const totalRelacao = relacaoA + relacaoB;
+            const volumeParteA = (volumeSolidos * relacaoA) / totalRelacao;
+            const volumeParteB = (volumeSolidos * relacaoB) / totalRelacao;
+            const volumeSolvente = volumeTotalDesejado * percentualDiluicao;
+
+            document.getElementById("textoResultadoComSolventeA").textContent = `Quantidade da Parte A:`;
+            document.getElementById("resultadoComSolventeA").textContent = volumeParteA.toFixed(3);
+
+            document.getElementById("textoResultadoComSolventeB").textContent = `Quantidade da Parte B:`;
+            document.getElementById("resultadoComSolventeB").textContent = volumeParteB.toFixed(3);
+
+            document.getElementById("textoResultadoSolvente").textContent = `Quantidade de Solvente:`;
+            document.getElementById("resultadoSolvente").textContent = volumeSolvente.toFixed(3);
+        }
+    </script>
 </body>
 </html>
