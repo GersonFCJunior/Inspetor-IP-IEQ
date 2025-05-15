@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Prazo de Validade e Estoque - Controle de Estoque de Tintas</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            margin: 20px;
+            background-color: #f4f4f4;
+        }
+        .container {
+            max-width: 1000px; /* Aumentei a largura para acomodar mais colunas */
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        h1, h2 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        h2 {
+            margin-top: 30px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .no-entries {
+            text-align: center;
+            font-style: italic;
+            color: #777;
+        }
+        .options-buttons {
+            margin-top: 20px;
+            text-align: center;
+        }
+        .options-buttons button {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-right: 10px;
+        }
+        .options-buttons button:hover {
+            background-color: #0056b3;
+        }
+        #export-pdf-estoque {
+            background-color: #17a2b8;
+            margin-top: 10px;
+        }
+        #export-pdf-estoque:hover {
+            background-color: #138496;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Prazo de Validade e Estoque</h1>
+
+        <h2>Produtos em Estoque</h2>
+        <table id="estoque-atual-table">
+            <thead>
+                <tr>
+                    <th>Produto</th>
+                    <th>Lote</th>
+                    <th>Validade</th>
+                    <th>Quantidade</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr id="no-estoque-row">
+                    <td colspan="4" class="no-entries">Nenhum produto em estoque.</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>Histórico de Saídas</h2>
+        <table id="saidas-historico-table">
+            <thead>
+                <tr>
+                    <th>Produto</th>
+                    <th>Lote</th>
+                    <th>Certificado</th>
+                    <th>Validade</th>
+                    <th>Quantidade</th>
+                    <th>Local de Uso</th>
+                    <th>Data/Hora Saída</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr id="no-saidas-row">
+                    <td colspan="7" class="no-entries">Nenhuma saída de estoque registrada.</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="options-buttons">
+            <button onclick="window.location.href = 'principal.html'">Voltar para Página Inicial</button>
+            <button id="export-pdf-estoque" onclick="exportarEstoqueParaPDF()">Exportar Estoque para PDF</button>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.13/jspdf.plugin.autotable.min.js"></script>
+    <script>
+        let entradasEstoque = JSON.parse(localStorage.getItem('entradasEstoque')) || [];
+        let saidasEstoque = JSON.parse(localStorage.getItem('saidasEstoque')) || [];
+        const estoqueAtualTableBody = document.getElementById('estoque-atual-table').getElementsByTagName('tbody')[0];
+        const saidasHistoricoTableBody = document.getElementById('saidas-historico-table').getElementsByTagName('tbody')[0];
+        const noEstoqueRow = document.getElementById('no-estoque-row');
+        const noSaidasRow = document.getElementById('no-saidas-row');
+
+        function exibirEstoque() {
+            estoqueAtualTableBody.innerHTML = '';
+            let hasEstoque = false;
+
+            entradasEstoque.forEach(entrada => {
+                if (entrada.lotes && entrada.lotes.length > 0) {
+                    entrada.lotes.forEach((lote, index) => {
+                        const row = estoqueAtualTableBody.insertRow();
+                        const produtoCell = row.insertCell();
+                        const loteCell = row.insertCell();
+                        const validadeCell = row.insertCell();
+                        const quantidadeCell = row.insertCell();
+
+                        produtoCell.textContent = `${entrada.item.nome} (${entrada.item.unidade})`;
+                        loteCell.textContent = lote || '-';
+                        validadeCell.textContent = entrada.validades && entrada.validades[index] ? entrada.validades[index] : '-';
+                        quantidadeCell.textContent = entrada.quantidade;
+                        hasEstoque = true;
+                    });
+                } else if (entrada.validade) {
+                    const row = estoqueAtualTableBody.insertRow();
+                    const produtoCell = row.insertCell();
+                    const loteCell = row.insertCell();
+                    const validadeCell = row.insertCell();
+                    const quantidadeCell = row.insertCell();
+
+                    produtoCell.textContent = `${entrada.item.nome} (${entrada.item.unidade})`;
+                    loteCell.textContent = '-';
+                    validadeCell.textContent = entrada.validade;
+                    quantidadeCell.textContent = entrada.quantidade;
+                    hasEstoque = true;
+                } else {
+                    const row = estoqueAtualTableBody.insertRow();
+                    const produtoCell = row.insertCell();
+                    const loteCell = row.insertCell();
+                    const validadeCell = row.insertCell();
+                    const quantidadeCell = row.insertCell();
+
+                    produtoCell.textContent = `${entrada.item.nome} (${entrada.item.unidade})`;
+                    loteCell.textContent = '-';
+                    validadeCell.textContent = '-';
+                    quantidadeCell.textContent = entrada.quantidade;
+                    hasEstoque = true;
+                }
+            });
+
+            noEstoqueRow.style.display = hasEstoque ? 'none' : 'table-row';
+        }
+
+        function exibirHistoricoSaidas() {
+            saidasHistoricoTableBody.innerHTML = '';
+            let hasSaidas = false;
+
+            saidasEstoque.forEach(saida => {
+                const row = saidasHistoricoTableBody.insertRow();
+                const produtoCell = row.insertCell();
+                const loteCell = row.insertCell();
+                const certificadoCell = row.insertCell();
+                const validadeCell = row.insertCell();
+                const quantidadeCell = row.insertCell();
+                const localUsoCell = row.insertCell();
+                const dataHoraCell = row.insertCell();
+
+                produtoCell.textContent = `${saida.item.nome} (${saida.item.unidade})`;
+                loteCell.textContent = saida.lote || '-';
+                certificadoCell.textContent = saida.certificadoQualidade || '-';
+                validadeCell.textContent = saida.validade || '-'; // Supondo que a validade da saída seja armazenada
+                quantidadeCell.textContent = saida.quantidade;
+                localUsoCell.textContent = saida.localUso;
+                dataHoraCell.textContent = saida.dataHora;
+                hasSaidas = true;
+            });
+
+            noSaidasRow.style.display = hasSaidas ? 'none' : 'table-row';
+        }
+
+        function exportarEstoqueParaPDF() {
+            const { jsPDF } = window.jspdf;
+            const pdf = new jsPDF();
+            pdf.setFontSize(16);
+            pdf.text('Estoque Atual', 10, 15);
+            pdf.setFontSize(12);
+
+            const colunasEstoque = ["Produto", "Lote", "Validade", "Quantidade"];
+            const dadosEstoque = [];
+
+            entradasEstoque.forEach(entrada => {
+                if (entrada.lotes && entrada.lotes.length > 0) {
+                    entrada.lotes.forEach((lote, index) => {
+                        dadosEstoque.push([
+                            `${entrada.item.nome} (${entrada.item.unidade})`,
+                            lote || '-',
+                            entrada.validades && entrada.validades[index] ? entrada.validades[index] : '-',
+                            entrada.quantidade
+                        ]);
+                    });
+                } else if (entrada.validade) {
+                    dadosEstoque.push([
+                        `${entrada.item.nome} (${entrada.item.unidade})`,
+                        '-',
+                        entrada.validade,
+                        entrada.quantidade
+                    ]);
+                } else {
+                    dadosEstoque.push([
+                        `${entrada.item.nome} (${entrada.item.unidade})`,
+                        '-',
+                        '-',
+                        entrada.quantidade
+                    ]);
+                }
+            });
+
+            pdf.autoTable({
+                head: [colunasEstoque],
+                body: dadosEstoque,
+                startY: 25,
+            });
+
+            pdf.addPage();
+            pdf.setFontSize(16);
+            pdf.text('Histórico de Saídas', 10, 15);
+            pdf.setFontSize(12);
+
+            const colunasSaidas = ["Produto", "Lote", "Certificado", "Validade", "Quantidade", "Local de Uso", "Data/Hora Saída"];
+            const dadosSaidas = saidasEstoque.map(saida => [
+                `${saida.item.nome} (${saida.item.unidade})`,
+                saida.lote || '-',
+                saida.certificadoQualidade || '-',
+                saida.validade || '-', // Supondo que a validade da saída seja armazenada
+                saida.quantidade,
+                saida.localUso,
+                saida.dataHora
+            ]);
+
+            pdf.autoTable({
+                head: [colunasSaidas],
+                body: dadosSaidas,
+                startY: 25,
+            });
+
+            pdf.save('estoque_saidas.pdf');
+        }
+
+        // Exibir os dados ao carregar a página
+        exibirEstoque();
+        exibirHistoricoSaidas();
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.13/jspdf.plugin.autotable.min.js"></script>
+</body>
+</html>
