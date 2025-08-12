@@ -1,59 +1,104 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-BR">
 <head>
-    <title>Calculadoras Online</title>
+    <title>Gerson Fernandes - Carteirinha Virtual</title>
     <style>
         body {
-            font-family: sans-serif;
-            background-color: #f4f4f4;
+            font-family: Arial, sans-serif;
+            background-color: #e9eef2;
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: flex-start; /* Altera para alinhar o conteúdo ao topo */
+            justify-content: center;
             min-height: 100vh;
             margin: 0;
             padding: 20px;
         }
 
         h1 {
-            color: #333;
-            margin-bottom: 20px;
+            color: #2c3e50;
+            margin-bottom: 25px;
             text-align: center;
         }
 
-        .instructions-container {
-            background-color: #fff;
-            border: 1px solid #ddd;
-            border-radius: 8px;
+        /* Novo contêiner principal para a carteirinha e os botões */
+        .main-content {
+            display: flex;
+            flex-direction: column; /* Padrão em telas menores */
+            align-items: center;
+            gap: 30px;
+            width: 100%;
+            max-width: 900px;
             padding: 20px;
-            margin-bottom: 30px;
-            width: 80%; /* Ajuste a largura conforme necessário */
+        }
+
+        /* Estilo da Carteirinha */
+        .carteirinha {
+            background-color: #fff;
+            border: 1px solid #c2c9d1;
+            border-radius: 12px;
+            padding: 30px;
+            width: 100%;
+            max-width: 450px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            text-align: left;
+            position: relative; /* Importante para o posicionamento da foto */
+        }
+
+        /* Estilo da Foto dentro da carteirinha */
+        .foto {
+            width: 100px; /* Tamanho da foto */
+            height: 100px;
+            border-radius: 50%; /* Deixa a foto redonda */
+            object-fit: cover; /* Garante que a imagem preencha o espaço sem distorcer */
+            position: absolute; /* Posiciona a foto de forma absoluta */
+            top: 20px; /* Distância do topo */
+            right: 20px; /* Distância da direita */
+            border: 3px solid #f0f0f0; /* Uma borda para destacar a foto */
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
 
-        .instructions-container h2 {
-            color: #333;
+        .carteirinha h2 {
+            color: #2980b9;
+            font-size: 24px;
             margin-top: 0;
-            margin-bottom: 15px;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+            padding-right: 120px; /* Ajuste para não sobrepor a foto */
         }
-
-        .instructions-container p {
+        
+        .carteirinha p {
             color: #555;
-            line-height: 1.6; /* Melhora a legibilidade do texto */
-            margin-bottom: 10px;
+            font-size: 16px;
+            line-height: 1.6;
+            margin: 8px 0;
+        }
+        
+        .carteirinha p strong {
+            color: #333;
+            font-weight: bold;
         }
 
+        .carteirinha-label {
+            font-weight: normal;
+            color: #7f8c8d;
+            font-size: 14px;
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        /* Estilo para os Botões */
         .button-container {
             display: flex;
-            flex-direction: column; /* Altera a direção do flex container para coluna */
-            align-items: stretch; /* Faz os botões ocuparem a largura total do container */
-            gap: 15px; /* Adiciona um espaçamento entre os botões */
-            width: 80%; /* Alinha a largura dos botões com as instruções */
-            max-width: 500px; /* Define uma largura máxima para os botões */
+            flex-direction: column;
+            align-items: stretch;
+            gap: 15px;
+            width: 100%;
+            max-width: 450px;
         }
 
         .calculator-button {
-            background-color: #007bff;
+            background-color: #3498db;
             color: white;
             padding: 15px 30px;
             border: none;
@@ -61,35 +106,45 @@
             cursor: pointer;
             font-size: 18px;
             text-decoration: none;
-            transition: background-color 0.3s ease;
-            text-align: center; /* Centraliza o texto dentro do botão */
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            text-align: center;
         }
 
         .calculator-button:hover {
-            background-color: #0056b3;
+            background-color: #2980b9;
+            transform: translateY(-2px);
+        }
+
+        /* Media Query para telas maiores que 768px */
+        @media (min-width: 768px) {
+            .main-content {
+                flex-direction: row;
+                justify-content: center;
+                align-items: flex-start;
+            }
         }
     </style>
 </head>
 <body>
-    <h1>Calculadoras Online</h1>
+    <h1>Inspetor de Pintura Industrial Virtual.</h1>
+    <h1>Vou te ajudar a realizar o serviço com qualidade.</h1>
 
-    <div class="instructions-container">
-        <h2>GERSON FERNANDES DAS CHAGAS JUNIOR</h2>
-        <p>Seu Inspetor de Pintura Industrial, virtual</p>
-        <p>Registros Técnicos:</p>
-        <p>Inspetor de Pintura Industrial Nível 1 (ABRACO): SNQC-CP 1264;</p>
-        <p>Protective Coating Inspector Level 2 (Icorr): Icorr C12390;</p>
-        <p>CREA-CE nº: 361746.</p>
-        <h3>Instruções</h3>
-        <p>Vou te ajudar na realização do serviço.</p>
-        <p>Escolha uma opção da opções.</p>
-    </div>
+    <div class="main-content">
+        <div class="carteirinha">
+            <img src="minha_foto.jpg" alt="Foto de Perfil" class="foto">
 
-    <div class="button-container">
-        
-        <a href="quantidadenecessaria_tinta.html" class="calculator-button">Quantidade Necessária de Tinta</a>
-        <a href="calculadora_volume.html" class="calculator-button">Preparação de Tintas</a>
-    
+            <h2>GERSON FERNANDES DAS CHAGAS JUNIOR</h2>
+            <p><strong>Inspetor de Pintura Industrial</strong></p>
+            <p><strong>Registros Técnicos:</strong></p>
+            <p><span class="carteirinha-label">ABRACO:</span> SNQC-CP 1264</p>
+            <p><span class="carteirinha-label">ICorr:</span> Icorr C12390</p>
+            <p><span class="carteirinha-label">CREA-CE:</span> nº 361746</p>
+        </div>
+
+        <div class="button-container">
+            <a href="quantidadenecessaria_tinta.html" class="calculator-button">Quantidade Necessária de Tinta</a>
+            <a href="calculadora_volume.html" class="calculator-button">Preparação de Tintas</a>
+        </div>
     </div>
 </body>
 </html>
